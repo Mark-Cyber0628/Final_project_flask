@@ -8,20 +8,20 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    """Kirajzolja a főoldalt."""
     return render_template("index.html")
 
 
 @app.route("/emotionDetector", methods=["GET", "POST"])
 def emotion_detector_route():
-    # A frontend jellemzően GET paraméterben küldi: ?textToAnalyze=...
-    # Biztosra megyünk: kezeljük a GET-et és a POST formot is.
+    """Extract the text to analyze from the Flask request."""
     text_to_analyze = request.args.get("textToAnalyze")
     if text_to_analyze is None:
         text_to_analyze = request.form.get("textToAnalyze", "")
 
     result = emotion_detector(text_to_analyze)
 
-    
+
     if result.get("dominant_emotion") is None:
         return "Érvénytelen szöveg! Kérlek, próbáld újra!."
 
